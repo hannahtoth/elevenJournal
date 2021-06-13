@@ -2,7 +2,9 @@ require("dotenv").config();
 const Express = require('express');
 const app = Express();
 const dbConnection = require('./db');
-
+const cors = require('cors')
+app.use(require('./middlerware/headers'));
+app.use(cors());
 const controllers = require('./controllers');
 
 app.use(Express.json());
@@ -11,7 +13,6 @@ app.use("/user", controllers.userController);
 
 app.use(require("./middlerware/validate-jwt"));
 app.use('/journal', controllers.journalController);
-
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
